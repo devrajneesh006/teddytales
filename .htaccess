@@ -1,0 +1,57 @@
+# ==================================================================
+#  Apache configuration for Teddy Tales
+# ==================================================================
+#  NOTE: This file targets XAMPP (Apache). If you deploy on another
+#  server (nginx, LiteSpeed, cPanel), adapt or remove the equivalent
+#  directives. When deployed at your domain ROOT, change the 404 path
+#  from /teddy/404.php to /404.php.
+
+# ---------- Security ----------
+Options -Indexes
+
+# ---------- Custom error pages (SEO: real 404 status code comes from 404.php) ----------
+ErrorDocument 404 /teddy/404.php
+
+# ==================================================================
+#  PERFORMANCE — browser caching for static assets
+#  (ask your SEO person to tune these; they rarely need changes)
+# ==================================================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/css "access plus 1 weeks"
+    ExpiresByType application/javascript "access plus 1 weeks"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Compress delivered text files (gzip)
+    <FilesMatch "\.(html|php|js|css|json|xml|svg)$">
+        Header set Cache-Control "no-transform"
+    </FilesMatch>
+    <IfModule mod_deflate.c>
+        AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json text/xml image/svg+xml
+    </IfModule>
+</IfModule>
+
+# ==================================================================
+#  SEO REDIRECTS (enable when going live — replace with your domain)
+# ==================================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS (uncomment for production):
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Force "www" or remove "www" — pick ONE (uncomment for production):
+    # RewriteCond %{HTTP_HOST} ^www\.rudrafibre\.in$ [NC]
+    # RewriteRule ^(.*)$ https://rudrafibre.in/$1 [L,R=301]
+    # RewriteCond %{HTTP_HOST} ^rudrafibre\.in$ [NC]
+    # RewriteRule ^(.*)$ https://www.rudrafibre.in/$1 [L,R=301]
+</IfModule>

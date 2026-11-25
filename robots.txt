@@ -1,0 +1,7 @@
+# robots.txt — Teddy Tales (soft toys & fabrics maker, Rithala, New Delhi)
+# If this site is served from a different domain, update the Sitemap URL below.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://rudrafibre.in/sitemap.xml
